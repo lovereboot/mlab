@@ -1,0 +1,12 @@
+*.classpath
+.idea
+
+target
+
+.project
+.settings
+
+*.iml
+
+*.log
+pom.xml.versionsBackup
