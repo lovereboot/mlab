@@ -4,17 +4,23 @@ import org.apache.spark.rdd.RDD
 import org.apache.spark.{SparkConf, SparkContext}
 
 abstract class BaseSparkCase {
+  var conf: SparkConf = null
+  var sc: SparkContext = null
   /**
     * 资源文件路径前缀
     */
-  val _RES_PREFIX: String = "mlab/target/classes/"
+  val _RES_PREFIX: String = getClass.getResource("/").getPath
 
-  val conf = new SparkConf().setMaster("local").setAppName(getAppName)
-  val sc = new SparkContext(conf)
 
   def main(args: Array[String]): Unit = {
+    initSpark()
     algorithmCase()
     sc.stop()
+  }
+
+  def initSpark(): Unit = {
+    conf = new SparkConf().setMaster("local").setAppName(getAppName)
+    sc = new SparkContext(conf)
   }
 
   /**
@@ -27,7 +33,15 @@ abstract class BaseSparkCase {
     sc.textFile(_RES_PREFIX + path)
   }
 
+  /**
+    * 算法实例实现
+    */
   def algorithmCase(): Unit
 
+  /**
+    * spark应用名称
+    *
+    * @return
+    */
   def getAppName: String
 }
