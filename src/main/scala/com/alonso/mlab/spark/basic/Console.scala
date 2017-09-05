@@ -8,14 +8,10 @@ object Console extends BaseSparkCase {
     * 算法实例实现
     */
   override def algorithmCase(): Unit = {
-    val array1 = List(Array("A", "B", "C"))
-    val rdd = loadResourceFile("data.txt").map(x => x.split(","))
-//    rdd.foreach(x=> x.foreach(print))
-    val data = for (i <- Range(0,3)) yield getMapping(rdd, i)
-
-    getMapping(rdd, 1).foreach(println)
-    data.foreach(println)
-    println(sum(data.map(_.size)))
+    val a1 = Array(1,2,3,4)
+    val a2 = Array(4, 5,6)
+    val a3 = a1++a2
+    a3.foreach(println)
   }
 
   def getMapping(rdd: RDD[Array[String]], idx: Int) = {

@@ -1,11 +1,14 @@
 package com.alonso.mlab.spark.basic
 
 import org.apache.spark.rdd.RDD
+import org.apache.spark.sql.SparkSession
 import org.apache.spark.{SparkConf, SparkContext}
 
 abstract class BaseSparkCase {
   var conf: SparkConf = null
   var sc: SparkContext = null
+  var session:SparkSession = null
+
   /**
     * 资源文件路径前缀
     */
@@ -21,6 +24,7 @@ abstract class BaseSparkCase {
   def initSpark(): Unit = {
     conf = new SparkConf().setMaster("local").setAppName(getAppName)
     sc = new SparkContext(conf)
+    session = SparkSession.builder().master("local").appName(getAppName).config("spark.some.config.option", "some-value").getOrCreate()
   }
 
   /**
