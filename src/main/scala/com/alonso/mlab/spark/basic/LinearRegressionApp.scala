@@ -30,7 +30,7 @@ object LinearRegressionApp extends BaseSparkCase {
     */
   def spark_under_2_x_case(): Unit = {
     // 1.加载数据
-    val file = loadResourceFile(_TRAIN_DATA)
+    val file = loadRdd(_TRAIN_DATA)
     val records = file.map(_.split(",")).cache()
     val typeEnums = for (i <- Range(2, 10)) yield getTypeVarEnums(records, i)
 
@@ -87,7 +87,7 @@ object LinearRegressionApp extends BaseSparkCase {
     * 在spark2.x版本，线性回归使用LinearRegression
     */
   def spark_2_x_case(): Unit = {
-    val train = loadResourceFile(_TRAIN_DATA).map { row =>
+    val train = loadRdd(_TRAIN_DATA).map { row =>
       val cols = row.split(",")
       (cols(2).toDouble, cols(3).toDouble, cols(4).toDouble, cols(5).toDouble, cols(6).toDouble, cols(7).toDouble, cols(8).toDouble, cols(9).toDouble, cols(10).toDouble, cols(11).toDouble, cols(12).toDouble, cols(13).toDouble, cols(16).toDouble)
     }.cache()

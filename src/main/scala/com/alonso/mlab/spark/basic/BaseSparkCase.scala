@@ -1,13 +1,13 @@
 package com.alonso.mlab.spark.basic
 
 import org.apache.spark.rdd.RDD
-import org.apache.spark.sql.SparkSession
+import org.apache.spark.sql.{DataFrame, SparkSession}
 import org.apache.spark.{SparkConf, SparkContext}
 
 abstract class BaseSparkCase {
   var conf: SparkConf = null
   var sc: SparkContext = null
-  var session:SparkSession = null
+  var session: SparkSession = null
 
   /**
     * 资源文件路径前缀
@@ -33,8 +33,33 @@ abstract class BaseSparkCase {
     * @param path resource目录下相对路径
     * @return
     */
-  def loadResourceFile(path: String): RDD[String] = {
+  def loadRdd(path: String): RDD[String] = {
     sc.textFile(_RES_PREFIX + path)
+  }
+
+  /**
+    * 加载数据
+    *
+    * @param path
+    * @return
+    */
+  def loadCsvDf(path: String): DataFrame = {
+    loadCsvDf(_RES_PREFIX + path, false)
+  }
+
+  /**
+    * 加载数据
+    *
+    * @param path
+    * @param hasTitle 数据是否含标题
+    * @return
+    */
+  def loadCsvDf(path: String, hasTitle: Boolean): DataFrame = {
+    val reader = session.read
+    if (hasTitle) {
+      reader.option("header", true)
+    }
+    reader.csv(path)
   }
 
   /**

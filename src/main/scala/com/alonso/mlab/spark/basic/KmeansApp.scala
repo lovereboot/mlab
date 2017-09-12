@@ -16,7 +16,7 @@ object KmeansApp extends BaseSparkCase {
 
   override def algorithmCase(): Unit = {
     // 装载数据
-    val file = loadResourceFile("kmeans/kmeans_data.txt")
+    val file = loadRdd("kmeans/kmeans_data.txt")
     val parsedData = file.map(s => Vectors.dense(s.split(" ").map(_.toDouble)))
 
     val numClusters = 2

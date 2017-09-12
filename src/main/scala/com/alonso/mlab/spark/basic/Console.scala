@@ -1,21 +1,28 @@
 package com.alonso.mlab.spark.basic
 
-import breeze.linalg.sum
-import org.apache.spark.rdd.RDD
+import org.apache.spark.ml.Pipeline
+import org.apache.spark.ml.feature.StringIndexer
 
 object Console extends BaseSparkCase {
   /**
     * 算法实例实现
     */
   override def algorithmCase(): Unit = {
-    val a1 = Array(1,2,3,4)
-    val a2 = Array(4, 5,6)
-    val a3 = a1++a2
-    a3.foreach(println)
-  }
+    val df = loadCsvDf("data.txt").toDF("c1", "c2", "c3")
+    df.show()
+    val strIdx01 = new StringIndexer().setInputCol("c1").setOutputCol("c1_idx")
+    val strIdx02 = new StringIndexer().setInputCol("c2").setOutputCol("c2_idx")
 
-  def getMapping(rdd: RDD[Array[String]], idx: Int) = {
-    rdd.map(row => row(idx)).distinct().zipWithIndex().collectAsMap()
+    val p1 = new Pipeline().setStages(Array(strIdx01))
+
+    val p2 = new Pipeline().setStages(Array(strIdx01, strIdx02))
+    val pRes1 = p1.fit(df)
+    val pRes2 = p2.fit(df)
+    val r1 = pRes1.transform(df)
+    val r2 = pRes2.transform(df)
+
+    r1.show()
+    r2.show()
   }
 
   /**
