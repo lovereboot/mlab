@@ -39,6 +39,11 @@
             <artifactId>spark-mllib_${scala.version}</artifactId>
             <version>${spark.version}</version>
         </dependency>
+        <dependency>
+            <groupId>org.vegas-viz</groupId>
+            <artifactId>vegas_2.11</artifactId>
+            <version>0.3.6</version>
+        </dependency>
     </dependencies>
     <build>
         <plugins>
