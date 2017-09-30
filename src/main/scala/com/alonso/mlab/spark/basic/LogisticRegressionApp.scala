@@ -37,6 +37,11 @@ object LogisticRegressionApp extends BaseSparkCase {
     session.createDataFrame(predictResult).toDF("real_result", "predict_result").show(50)
   }
 
+  def rfModel(): Unit = {
+    val file = loadCsvDf("regression/logistic/logistic.txt")
+    val data = file.toDF("industry_risk", "")
+  }
+
   def toDouble(input: String): Double = {
     var result: Double = 0.0
     if ("P".equalsIgnoreCase(input)) {
